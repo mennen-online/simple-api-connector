@@ -1,0 +1,28 @@
+{
+    "name": "mennen-online/simple-api-connector",
+    "description": "Configure each API you want to Connect simply via configuration File",
+    "license": "GPLv3",
+    "autoload": {
+        "psr-4": {
+            "MennenOnline\\SimpleApiConnector\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MennenOnline\\SimpleApiConnector\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hendrik Mennen",
+            "email": "info@mennen.online"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^8.13"
+    },
+    "require": {
+        "php": "^8.2",
+        "mennen-online/laravel-response-models": "^2.1"
+    }
+}
