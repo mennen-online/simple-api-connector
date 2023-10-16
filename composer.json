@@ -23,6 +23,7 @@
     },
     "require": {
         "php": "^8.2",
-        "mennen-online/laravel-response-models": "^2.1"
+        "mennen-online/laravel-response-models": "^2.1",
+        "illuminate/support": "10.*"
     }
 }
