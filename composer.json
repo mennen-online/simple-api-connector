@@ -1,7 +1,7 @@
 {
     "name": "mennen-online/simple-api-connector",
     "description": "Configure each API you want to Connect simply via configuration File",
-    "license": "GPLv3",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "MennenOnline\\SimpleApiConnector\\": "src/"
