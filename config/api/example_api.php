@@ -10,7 +10,7 @@ return [
         'token' => '', //use for bearer and token
         'client_id' => '', //use for client_credentials
         'client_secret' => '', //use for client_credentials
-        'authentication_url' => '' //use for client_credentials
+        'authentication_url' => '', //use for client_credentials
     ],
     'endpoints' => [
         'categories' => '/categories',
@@ -19,5 +19,5 @@ return [
     'response_models' => [
         'categories' => 'Model::class', //Response model for Categories
         'products' => 'Model::class', //Response model for Products
-    ]
+    ],
 ];

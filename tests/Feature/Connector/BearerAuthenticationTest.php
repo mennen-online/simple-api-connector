@@ -26,7 +26,7 @@ class BearerAuthenticationTest extends TestCase
                 'token' => 'my-token', //use for bearer and token
                 'client_id' => '', //use for client_credentials
                 'client_secret' => '', //use for client_credentials
-                'authentication_url' => '' //use for client_credentials
+                'authentication_url' => '', //use for client_credentials
             ],
             'endpoints' => [
                 'categories' => '/categories',
@@ -35,7 +35,7 @@ class BearerAuthenticationTest extends TestCase
             'response_models' => [
                 'categories' => 'Category::class', //Response model for Categories
                 'products' => 'Product::class', //Response model for Products
-            ]
+            ],
         ]);
     }
 
@@ -52,8 +52,8 @@ class BearerAuthenticationTest extends TestCase
                         'id' => 2,
                         'name' => 'Category 2',
                     ],
-                ]
-            ])
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
@@ -73,15 +73,15 @@ class BearerAuthenticationTest extends TestCase
             'https://example.com/api/categories' => Http::response([
                 'data' => [
                     'id' => 3,
-                    'name' => 'Category 3'
-                ]
-            ])
+                    'name' => 'Category 3',
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
 
         $response = $this->apiConnector->post('categories', [
-            'name' => 'Category 3'
+            'name' => 'Category 3',
         ]);
 
         $this->assertIsArray($response->data);
@@ -99,15 +99,15 @@ class BearerAuthenticationTest extends TestCase
             'https://example.com/api/categories/3' => Http::response([
                 'data' => [
                     'id' => 3,
-                    'name' => 'New Category 3'
-                ]
-            ])
+                    'name' => 'New Category 3',
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
 
         $response = $this->apiConnector->put('categories', 3, [
-            'name' => 'New Category 3'
+            'name' => 'New Category 3',
         ]);
 
         $this->assertIsArray($response->data);
@@ -125,9 +125,9 @@ class BearerAuthenticationTest extends TestCase
             'https://example.com/api/categories/3' => Http::response([
                 'data' => [
                     'id' => 3,
-                    'name' => 'New Category 3'
-                ]
-            ])
+                    'name' => 'New Category 3',
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');

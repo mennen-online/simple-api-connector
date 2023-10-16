@@ -4,7 +4,6 @@ namespace MennenOnline\SimpleApiConnector\Configuration;
 
 use Illuminate\Support\Arr;
 use MennenOnline\LaravelResponseModels\Models\BaseModel;
-use MennenOnline\SimpleApiConnector\Configuration\ConfigurationLoader;
 use MennenOnline\SimpleApiConnector\Configuration\Interfaces\ConfigurationInterface;
 
 class Configuration extends ConfigurationLoader implements ConfigurationInterface

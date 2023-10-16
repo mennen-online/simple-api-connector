@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use MennenOnline\LaravelResponseModels\Models\BaseModel;
 use MennenOnline\SimpleApiConnector\Configuration\Configuration;
 use MennenOnline\SimpleApiConnector\Models\BaseResponseModel;
 
@@ -18,24 +17,22 @@ class ApiConnector
         private ?PendingRequest $request = null,
         private ?Configuration $configuration = null,
         private ?Carbon $tokenExpiresAt = null,
-        private ?string $token = null,
-    )
-    {
+    ) {
         $this->configuration = $this->configuration ?? Configuration::loadConfiguration($this->configuredApi);
 
         $configuredEndpoints = config('simple-api-connector.'.$this->configuredApi);
-        if($configuredEndpoints) {
+        if ($configuredEndpoints) {
             return;
         }
         $this->request = Http::baseUrl($this->configuration->getBaseUrl());
 
         $authentication = $this->configuration->getAuthentication();
 
-        $this->request = match($authentication['type']) {
+        $this->request = match ($authentication['type']) {
             'basic' => $this->request->withBasicAuth($authentication['username'], $authentication['password']),
             'digest' => $this->request->withDigestAuth($authentication['username'], $authentication['password']),
             'token' => $this->request->withToken($authentication['token']),
-            'client_credentials' => $this->useClientCredentialsAuthentification($authentication),
+            'client_credentials' => $this->useClientCredentialsAuthentication($authentication),
             default => $this->request,
         };
     }
@@ -44,6 +41,7 @@ class ApiConnector
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
+
         return new $this->responseModel($this->request->get($this->configuration->getEndpoint($endpoint), $parameters)->object() ?? []);
     }
 
@@ -51,6 +49,7 @@ class ApiConnector
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
+
         return new $this->responseModel($this->request->post($this->configuration->getEndpoint($endpoint), $parameters)->object() ?? []);
     }
 
@@ -58,24 +57,26 @@ class ApiConnector
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
-        return new $this->responseModel($this->request->put($this->configuration->getEndpoint($endpoint) . '/' . $resourceId, $parameters)->object() ?? []);
+
+        return new $this->responseModel($this->request->put($this->configuration->getEndpoint($endpoint).'/'.$resourceId, $parameters)->object() ?? []);
     }
 
     public function delete(string $endpoint, int|string $resourceId, array $parameters = []): BaseResponseModel
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
-        return new $this->responseModel($this->request->delete($this->configuration->getEndpoint($endpoint) . '/' . $resourceId, $parameters)->object());
+
+        return new $this->responseModel($this->request->delete($this->configuration->getEndpoint($endpoint).'/'.$resourceId, $parameters)->object());
     }
 
     private function loadResponseModel(string $endpoint): void
     {
-        if(($model = Arr::get($this->configuration->getResponseModels(), $endpoint)) && class_exists($model)) {
+        if (($model = Arr::get($this->configuration->getResponseModels(), $endpoint)) && class_exists($model)) {
             $this->responseModel = $model;
         }
     }
 
-    private function useClientCredentialsAuthentification(array $authentication): PendingRequest
+    private function useClientCredentialsAuthentication(array $authentication): PendingRequest
     {
         $authenticationResponse = $this->request->post($authentication['authentication_url'], [
             'grant_type' => 'client_credentials',
@@ -92,10 +93,10 @@ class ApiConnector
 
     private function refreshToken(): void
     {
-        if($this->tokenExpiresAt === null || $this->tokenExpiresAt->isFuture()) {
+        if ($this->tokenExpiresAt === null || $this->tokenExpiresAt->isFuture()) {
             return;
         }
 
-        $this->request = $this->useClientCredentialsAuthentification($this->configuration->getAuthentication());
+        $this->request = $this->useClientCredentialsAuthentication($this->configuration->getAuthentication());
     }
 }

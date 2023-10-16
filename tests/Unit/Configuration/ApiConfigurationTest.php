@@ -45,8 +45,7 @@ class ApiConfigurationTest extends TestCase
     }
 
     public function test_it_can_load_the_configuration_file_with_a_specific_api_and_a_specific_endpoint_and_a_specific_model(
-    )
-    {
+    ) {
         $this->assertEquals('MennenOnline\SimpleApiConnector\Tests\Stubs\Basket',
             config('api.example_api.response_models.basket'));
     }

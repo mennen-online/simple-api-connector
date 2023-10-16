@@ -6,5 +6,4 @@ use MennenOnline\LaravelResponseModels\Models\BaseModel;
 
 class Basket extends BaseModel
 {
-
 }

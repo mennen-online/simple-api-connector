@@ -27,7 +27,7 @@ class ClientCredentialsAuthenticationTest extends TestCase
                 'token' => '', //use for bearer and token
                 'client_id' => 'my-client-id', //use for client_credentials
                 'client_secret' => 'my-client-secret', //use for client_credentials
-                'authentication_url' => 'authentication' //use for client_credentials
+                'authentication_url' => 'authentication', //use for client_credentials
             ],
             'endpoints' => [
                 'categories' => '/categories',
@@ -36,7 +36,7 @@ class ClientCredentialsAuthenticationTest extends TestCase
             'response_models' => [
                 'categories' => 'Category::class', //Response model for Categories
                 'products' => 'Product::class', //Response model for Products
-            ]
+            ],
         ]);
     }
 
@@ -46,7 +46,7 @@ class ClientCredentialsAuthenticationTest extends TestCase
             'https://example.com/api/authentication' => Http::response([
                 'access_token' => Str::random(),
                 'expires_in' => rand(100, 600),
-                'token_type' => 'bearer'
+                'token_type' => 'bearer',
             ]),
             'https://example.com/api/categories' => Http::response([
                 'data' => [
@@ -58,8 +58,8 @@ class ClientCredentialsAuthenticationTest extends TestCase
                         'id' => 2,
                         'name' => 'Category 2',
                     ],
-                ]
-            ])
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
@@ -79,20 +79,20 @@ class ClientCredentialsAuthenticationTest extends TestCase
             'https://example.com/api/authentication' => Http::response([
                 'access_token' => Str::random(),
                 'expires_in' => rand(100, 600),
-                'token_type' => 'bearer'
+                'token_type' => 'bearer',
             ]),
             'https://example.com/api/categories' => Http::response([
                 'data' => [
                     'id' => 3,
-                    'name' => 'Category 3'
-                ]
-            ])
+                    'name' => 'Category 3',
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
 
         $response = $this->apiConnector->post('categories', [
-            'name' => 'Category 3'
+            'name' => 'Category 3',
         ]);
 
         $this->assertIsArray($response->data);
@@ -110,20 +110,20 @@ class ClientCredentialsAuthenticationTest extends TestCase
             'https://example.com/api/authentication' => Http::response([
                 'access_token' => Str::random(),
                 'expires_in' => rand(100, 600),
-                'token_type' => 'bearer'
+                'token_type' => 'bearer',
             ]),
             'https://example.com/api/categories/3' => Http::response([
                 'data' => [
                     'id' => 3,
-                    'name' => 'New Category 3'
-                ]
-            ])
+                    'name' => 'New Category 3',
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
 
         $response = $this->apiConnector->put('categories', 3, [
-            'name' => 'New Category 3'
+            'name' => 'New Category 3',
         ]);
 
         $this->assertIsArray($response->data);
@@ -141,14 +141,14 @@ class ClientCredentialsAuthenticationTest extends TestCase
             'https://example.com/api/authentication' => Http::response([
                 'access_token' => Str::random(),
                 'expires_in' => rand(100, 600),
-                'token_type' => 'bearer'
+                'token_type' => 'bearer',
             ]),
             'https://example.com/api/categories/3' => Http::response([
                 'data' => [
                     'id' => 3,
-                    'name' => 'New Category 3'
-                ]
-            ])
+                    'name' => 'New Category 3',
+                ],
+            ]),
         ]);
 
         $this->apiConnector = new ApiConnector('example_api');
