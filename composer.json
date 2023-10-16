@@ -12,6 +12,13 @@
             "MennenOnline\\SimpleApiConnector\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MennenOnline\\SimpleApiConnector\\SimpleApiConnectorServiceProvider"
+            ]
+        }
+    },
     "authors": [
         {
             "name": "Hendrik Mennen",
