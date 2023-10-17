@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use MennenOnline\SimpleApiConnector\Configuration\Configuration;
 use MennenOnline\SimpleApiConnector\Models\BaseResponseModel;
+use MennenOnline\SimpleApiConnector\Services\UrlBuilderService;
 
 class ApiConnector
 {
@@ -17,8 +18,11 @@ class ApiConnector
         private ?PendingRequest $request = null,
         private ?Configuration $configuration = null,
         private ?Carbon $tokenExpiresAt = null,
+        private ?UrlBuilderService $urlBuilderService = null,
     ) {
         $this->configuration = $this->configuration ?? Configuration::loadConfiguration($this->configuredApi);
+
+        $this->urlBuilderService = new UrlBuilderService($this->configuration);
 
         $configuredEndpoints = config('simple-api-connector.'.$this->configuredApi);
         if ($configuredEndpoints) {
@@ -37,31 +41,31 @@ class ApiConnector
         };
     }
 
-    public function get(string $endpoint, array $parameters = []): BaseResponseModel
+    public function get(string $endpoint, int|string|array $resourceId = null, array $parameters = []): BaseResponseModel
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
 
-        return new $this->responseModel($this->request->get($this->configuration->getEndpoint($endpoint), $parameters)->object() ?? []);
+        return new $this->responseModel($this->request->get($this->urlBuilderService->getEndpoint($endpoint, $resourceId), $parameters)->object() ?? []);
     }
 
-    public function post(string $endpoint, array $parameters = []): BaseResponseModel
+    public function post(string $endpoint, int|string|array $resourceId = null, array $parameters = []): BaseResponseModel
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
 
-        return new $this->responseModel($this->request->post($this->configuration->getEndpoint($endpoint), $parameters)->object() ?? []);
+        return new $this->responseModel($this->request->post($this->urlBuilderService->getEndpoint($endpoint, $resourceId), $parameters)->object() ?? []);
     }
 
-    public function put(string $endpoint, int|string $resourceId, array $parameters = []): BaseResponseModel
+    public function put(string $endpoint, int|string|array $resourceId, array $parameters = []): BaseResponseModel
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
 
-        return new $this->responseModel($this->request->put($this->configuration->getEndpoint($endpoint).'/'.$resourceId, $parameters)->object() ?? []);
+        return new $this->responseModel($this->request->put($this->urlBuilderService->getEndpoint($endpoint, $resourceId), $parameters)->object() ?? []);
     }
 
-    public function delete(string $endpoint, int|string $resourceId, array $parameters = []): BaseResponseModel
+    public function delete(string $endpoint, int|string|array $resourceId, array $parameters = []): BaseResponseModel
     {
         $this->refreshToken();
         $this->loadResponseModel($endpoint);
