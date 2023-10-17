@@ -2,6 +2,9 @@
 
 namespace MennenOnline\SimpleApiConnector\Configuration;
 
+use Illuminate\Support\Arr;
+use MennenOnline\SimpleApiConnector\Models\BaseResponseModel;
+
 class ConfigurationLoader
 {
     public static function loadConfiguration(string $configuration): Configuration
@@ -9,7 +12,7 @@ class ConfigurationLoader
         $configuration = config('api.'.$configuration);
 
         return new Configuration(
-            $configuration['fallback_response_model'],
+            Arr::get($configuration, 'fallback_response_model', BaseResponseModel::class),
             $configuration['base_url'],
             $configuration['authentication'],
             $configuration['endpoints'],
