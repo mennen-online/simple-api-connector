@@ -30,6 +30,8 @@ return [
     'endpoints' => [
         'categories' => '/categories',
         'products' => '/products',
+        'users/:id' => '/users/:id',
+        'users/:user_id/orders/:order_id' => '/users/:user_id/orders/:order_id
     ],
     'response_models' => [
         'categories' => 'Model::class', //Response model for Categories
@@ -69,4 +71,13 @@ $response = $connector->put('categories/1', ['name' => 'My Category']);
 
 // DELETE
 $response = $connector->delete('categories/1');
+
+
+// To use URLs with names ID
+$response = $connector->get('users/:id', [':id' => 1]);
+
+// To use URLs with multiple names ID
+$response = $connector->get('users/:user_id/orders/:order_id', [':user_id' => 1, ':order_id' => 1]);
+```
+
 ```
